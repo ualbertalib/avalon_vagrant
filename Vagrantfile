@@ -12,16 +12,47 @@
 #      $ bash ansible-dev.sh
 #      (Wait a really long time)
 
+AVALON_FQDN = 'avdev01-local.library.ualberta.ca'
+AVALON_IP = '192.168.33.133'
+
+def public_key_path
+  ENV['HOME'] + '/.ssh/id_rsa.pub'
+end
+
+def public_key
+  file = File.open(public_key_path, "rb")
+  contents = file.read
+  file.close
+  return contents
+end
+
+def hostname_fqdn
+  AVALON_FQDN
+end
+
+def hostname_fqdn_escaped
+  hostname_fqdn.gsub('.', '\.')
+end
+
+def hostname_short
+  hostname_fqdn.split('.')[0]
+end
+
+def avalon_ip
+  AVALON_IP
+end
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ual/centos7.0"
   config.vm.box_url = "http://129.128.46.152/vagrantboxes/centos70.json"
-  config.vm.network "private_network", ip: "192.168.33.133"
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 443, host: 8443
+  config.vm.network "private_network", ip: avalon_ip
+  #config.vm.network "forwarded_port", guest: 80, host: 8080
+  #config.vm.network "forwarded_port", guest: 443, host: 8443
 
   config.vm.provider "virtualbox" do |vb|
      vb.memory = "8192"
-   end
+     vb.cpus = 4
+  end
 
   config.vm.provision "shell", inline: <<-SHELL
     # Configure some repos (get new ruby, old mediainfo)
@@ -34,14 +65,14 @@ Vagrant.configure(2) do |config|
 
     yum install yum-plugin-versionlock
 
-    yum install libmediainfo-0.7.86-2.1 mediainfo-0.7.86-2.1
+    yum -y install libmediainfo-0.7.86-2.1 mediainfo-0.7.86-2.1
     yum versionlock mediainfo libmediainfo
 
     # wget is just installed for testing
     yum -y install ansible python-setuptools firewalld wget
 
     # Inject root pubkey
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcBSuzHpZYH0xBGzKUNc2GlVeFi/4KtjT/Z3yfJbcGw089JvQVZuf7O1DW6v8Jh9wL46PLI5SKEfz8U4MSBGsP1Ayc8Vd7PbkRyc9OYxzDT2Z46PdL1yd0HdfbfQwv+s5aJS6ENBVeLjopeoalMjcfmjeUa8fEKvE0ML1NQE00j3YXRUz8purqz7EFjrPkc/kQfaa/5wzTyZfKYZRLR33voPWTW6M6KMiaiMHiZHy2poJY/2m5MicJ+lVSXtcag/dkY2s1p0w8qXZ+kc8zc+ngF/+OAW9L6KwHv2KUX74pw15PIH0bpz2lJHHb0uCXvxnqnrow+bbMWbLZ/rqs+JqN david@dev" >> /root/.ssh/authorized_keys
+    echo "#{public_key.strip}" >> /root/.ssh/authorized_keys
     service firewalld start
     chkconfig firewalld on
 
@@ -52,7 +83,7 @@ Vagrant.configure(2) do |config|
     yum update -y
 
     # Configure hostnames (short and FQDN)
-    echo avdev01-cwant > /etc/hostname
-    sed -i -e 's/^127\.0\.0\.1\s*localhost/127\.0\.0\.1   avdev01-cwant\.library\.ualberta\.ca avdev01-cwant localhost/' /etc/hosts
+    echo avdev01-local > /etc/hostname
+    sed -i -e 's/^127\.0\.0\.1\s*localhost/127\.0\.0\.1   #{hostname_fqdn_escaped} #{hostname_short} localhost/' /etc/hosts
   SHELL
 end

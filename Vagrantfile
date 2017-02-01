@@ -2,43 +2,7 @@
 # vi: set ft=ruby :
 # For running Tai-chun's ansible-dev.sh script from the ansible-config repository.
 
-# Instructions:
-#
-#   ** 1. Select a place where you would like to store a virtual base
-#         box for provisioning VMs. Put the path to this directory in
-#         the environment variable LOCAL_BOX_PATH. If not set, this
-#         will default to "/scratch/dont_backup/cwant/avalon/vagrant_boxes".
-#
-#   ** 2. Create the base box package **
-#         We do this to reduce the time of reprovisioning.
-#
-#     1) Build the box: $ vagrant up avalon-base-box
-#     2) Check the number of cpus that get provisioned in this vagrant box, modify
-#        as necessary. This check is done by ssh-ing and checking the contents
-#        of /proc/cpuinfo. The fix is to modify the settings in VirtualBox
-#        directly via the user interface.
-#     3) Package the box:
-#          $ vagrant package avalon-base-box \
-#              --output $LOCAL_BOX_PATH
-#
-#     This base box needs to be created once, and can be used to
-#     create all of the derivative boxes
-#
-#   ** 3. Provision the derivative you need from the base.
-#
-#     1) Easy, e.g., vagrant up avdev01-local
-#
-#   ** 4. Install the app via ansible, e.g. for avdev01-local
-#
-#     0) checkout the 'ansible-config' repository
-#     1) Set the names in the inventory-dev files all to avdev01-local
-#     2) Point avdev01-local to the "private_network" address below in /etc/hosts
-#     3) Bring up this Vagrant box. Reboot it to enable selinux
-#        (ansible will complain if you don't)
-#     4) Run the playbook:
-#      $ cd ansible-config/projects/
-#      $ bash ansible-dev.sh
-#      (Wait a really long time)
+# Instructions: see README.md
 
 LOCAL_BOX_PATH =
   ENV["LOCAL_BOX_PATH"] || "/scratch/dont_backup/cwant/avalon/vagrant_boxes"

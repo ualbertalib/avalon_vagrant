@@ -4,7 +4,13 @@
 
 # Instructions:
 #
-#   ** 1. Create the base box package **
+#   ** 1. Select a place where you would like to store a virtual base
+#         box for provisioning VMs. Put the path to this directory in
+#         the environment variable LOCAL_BOX_PATH. If not set, this
+#         will default to "/scratch/dont_backup/cwant/avalon/vagrant_boxes".
+#
+#   ** 2. Create the base box package **
+#         We do this to reduce the time of reprovisioning.
 #
 #     1) Build the box: $ vagrant up avalon-base-box
 #     2) Check the number of cpus that get provisioned in this vagrant box, modify
@@ -13,16 +19,16 @@
 #        directly via the user interface.
 #     3) Package the box:
 #          $ vagrant package avalon-base-box \
-#              --output /scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon_base.box
+#              --output $LOCAL_BOX_PATH
 #
 #     This base box needs to be created once, and can be used to
 #     create all of the derivative boxes
 #
-#   ** 2. Provision the derivative you need from the base.
+#   ** 3. Provision the derivative you need from the base.
 #
 #     1) Easy, e.g., vagrant up avdev01-local
 #
-#   ** 3. Install the app via ansible, e.g. for avdev01-local
+#   ** 4. Install the app via ansible, e.g. for avdev01-local
 #
 #     0) checkout the 'ansible-config' repository
 #     1) Set the names in the inventory-dev files all to avdev01-local
@@ -33,6 +39,9 @@
 #      $ cd ansible-config/projects/
 #      $ bash ansible-dev.sh
 #      (Wait a really long time)
+
+LOCAL_BOX_PATH =
+  ENV["LOCAL_BOX_PATH"] || "/scratch/dont_backup/cwant/avalon/vagrant_boxes"
 
 AVALON_HOSTS = {
   'avalon-base-box' => {
@@ -49,7 +58,7 @@ AVALON_HOSTS = {
     cpus: 4,
     mem: 8192,
     box: "avalon/base",
-    base_url: "file:///scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon_base.box"
+    base_url: "file://#{LOCAL_BOX_PATH}/avalon_base.box"
   },
   'avtest01-local' => {
     fqdn: 'avtest01-local.library.ualberta.ca',
@@ -57,7 +66,7 @@ AVALON_HOSTS = {
     cpus: 4,
     mem: 8192,
     box: "avalon/base",
-    base_url: "file:///scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon_base.box"
+    base_url: "file://#{LOCAL_BOX_PATH}/avalon_base.box"
   },
   'hydra-dive-in' => {
     fqdn: 'hydra-dive-in.library.ualberta.ca',
@@ -65,7 +74,7 @@ AVALON_HOSTS = {
     cpus: 4,
     mem: 8192,
     box: "avalon/base",
-    base_url: "file:///scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon_base.box"
+    base_url: "file://#{LOCAL_BOX_PATH}/avalon_base.box"
   },
 }.freeze
 

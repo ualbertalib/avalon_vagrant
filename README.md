@@ -58,9 +58,11 @@ account. So there are two ways in which you can access your box via SSH:
 
 <pre>$ ssh root@avdev01-local</pre>
 or
+<pre>$ ssh deploy@avdev01-local</pre>
+or
 <pre>$ vagrant ssh avdev01-local</pre>
 
-The second method connects you to the vagrant account, which has sudo priviledges.
+The last method connects you to the vagrant account, which has sudo priviledges.
 
 The avalon web app is available by pointing your browser to:
 
@@ -77,4 +79,9 @@ playbook: <pre>$ ansible-vault view roles/avalon_app/vars/dev.yml
 
 (This requires the vault password you obtained earlier.)
 
-
+You can run the test suite by logging into the deploy account:
+<pre>
+$ ssh deploy@avdev01-local
+$ cd /var/www/avalon/
+$ bundle exec rake spec
+</pre>

@@ -51,7 +51,9 @@ create all of the derivative boxes
  $ bash ansible-dev.sh
  </pre> (Wait a really long time)
 
-### Log into your development box, and access it via a browser
+### Using your box
+
+#### SSH
 
 Part of the provisioning process was to inject your public key into the root
 account. So there are two ways in which you can access your box via SSH:
@@ -63,6 +65,17 @@ or
 <pre>$ vagrant ssh avdev01-local</pre>
 
 The last method connects you to the vagrant account, which has sudo priviledges.
+
+#### Test Suite
+
+You can run the test suite by logging into the deploy account:
+<pre>
+$ ssh deploy@avdev01-local
+$ cd /var/www/avalon/
+$ bundle exec rake spec
+</pre>
+
+#### Browser
 
 The avalon web app is available by pointing your browser to:
 
@@ -79,9 +92,34 @@ playbook: <pre>$ ansible-vault view roles/avalon_app/vars/dev.yml
 
 (This requires the vault password you obtained earlier.)
 
-You can run the test suite by logging into the deploy account:
-<pre>
-$ ssh deploy@avdev01-local
-$ cd /var/www/avalon/
-$ bundle exec rake spec
-</pre>
+#### Fedora
+
+You can access Fedora via the URL:
+
+http://avdev01-local.library.ualberta.ca:8080/fedora
+
+You might need to go to chrome://net-internals/#hsts and delete the domain "avdev01-local.library.ualberta.ca" if your browser automatically redirects to "https" instead of "http".
+
+#### Solr
+
+You can access Fedora via the URL:
+
+http://avdev01-local.library.ualberta.ca:8080/solr
+
+See comment in last section if your browser redirects to "https".
+
+#### Matterhorn
+
+Monitor Matterhorn via:
+
+http://avdev01-local.library.ualberta.ca:4080/admin
+
+The login name is "admin" and the password can be grepping "org.opencastproject.security.admin.pass" in the file /usr/local/matterhorn/etc/config.properties.
+
+#### Wowza
+
+Monitor Wowza at:
+
+http://avdev01-local.library.ualberta.ca:8088/
+
+Login credentials can be obtained from /usr/local/WowzaStreamingEngine/conf/admin.password .

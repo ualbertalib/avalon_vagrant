@@ -3,6 +3,8 @@ This contains the Vagrant file and documentation that I use to set up an Avalon 
 
 ## Instructions:
 
+If you don't want to use Vagrant, just provision your dev machine however you like, and set up the networking and root SSH keys some so that ansible can access your provisioned hardware/OS. Skip ahead to the ansible section in this case. (Your mileage may vary.)
+
 ### Environment
 
 1. Select a place where you would like to store a virtual base

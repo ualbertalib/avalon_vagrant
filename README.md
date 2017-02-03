@@ -125,3 +125,5 @@ Monitor Wowza at:
 http://avdev01-local.library.ualberta.ca:8088/
 
 Login credentials can be obtained from /usr/local/WowzaStreamingEngine/conf/admin.password .
+
+The expiration date of your current Wowza license will be displayed. The duration a developer license is six months. If you need a new one, contact Wowza via their website. A new Wowza license key will need to be stored in the vaulted ansible playbook file  roles/avalon_stream/vars/wowza_trial_key.yml.

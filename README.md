@@ -14,7 +14,7 @@ If you don't want to use Vagrant, just provision your dev machine however you li
 
 ### Create the base box package
 
-We do this to reduce the time of reprovisioning.
+We do this to reduce the time of reprovisioning. This step needs to be done once, after which all derivative boxes can be based off of this base box (without having to install and update a bunch of yum packages).
 
 1. Build the box: <pre>$ vagrant up avalon-base-box</pre>
 2. Check the number of cpus that get provisioned in this vagrant box, modify

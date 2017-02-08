@@ -47,11 +47,13 @@ create all of the derivative boxes
    192.168.33.133  avdev01-local avdev01-local.library.ualberta.ca
 </pre>
 4. Bring up this Vagrant box. Reboot it to enable selinux
-   (ansible will complain if you don't)
+   (ansible will complain if you don't)<pre>$ vagrant reload avdev01-local</pre>
 5. Run the playbook:<pre>
  $ cd ansible-config/projects/
  $ bash ansible-dev.sh
  </pre> (Wait a really long time)
+
+6. Reboot the box for good measure: <pre>$ vagrant reload avdev01-local</pre>
 
 ### Using your box
 

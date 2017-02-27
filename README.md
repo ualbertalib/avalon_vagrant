@@ -36,9 +36,10 @@ create all of the derivative boxes
 
 ### Install the app via ansible, e.g. for avdev01-local
 
-1. checkout the 'ansible-config' repository, and set the vault password
-   in ~/.vault (ask a staff member for the password, and assistance
-   checking out the private repository).
+1. checkout the 'ansible-config' repository (branch 'cwant/avalon-test-suite-for-distribution'
+   for now, the master branch will be updated when things are better tested),
+   and set the vault password in ~/.vault (ask a staff member for the password, and
+   assistance checking out the code from the UNIX team's private git repository).
 2. Set the names in the inventory-dev files all to avdev01-local,
    and any FQDN related names to avdev01-local.library.ualberta.ca
 3. Point avdev01-local to the "private_network" address in the

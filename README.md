@@ -49,12 +49,16 @@ create all of the derivative boxes
 </pre>
 4. Bring up this Vagrant box. Reboot it to enable selinux
    (ansible will complain if you don't)<pre>$ vagrant reload avdev01-local</pre>
-5. Run the playbook:<pre>
+5. Configure ansible to find shared roles by creating the file <pre>ansible-config/projects/ansible.cfg</pre> with these contents:<pre>
+[defaults]
+roles_path=../../shared-roles
+</pre>
+6. Run the playbook:<pre>
  $ cd ansible-config/projects/avalon
  $ bash avalon-dev.sh
  </pre> (Wait a really long time)
 
-6. Reboot the box for good measure: <pre>$ vagrant reload avdev01-local</pre>
+7. Reboot the box for good measure: <pre>$ vagrant reload avdev01-local</pre>
 
 ### Using your box
 

@@ -50,8 +50,8 @@ create all of the derivative boxes
 4. Bring up this Vagrant box. Reboot it to enable selinux
    (ansible will complain if you don't)<pre>$ vagrant reload avdev01-local</pre>
 5. Run the playbook:<pre>
- $ cd ansible-config/projects/
- $ bash ansible-dev.sh
+ $ cd ansible-config/projects/avalon
+ $ bash avalon-dev.sh
  </pre> (Wait a really long time)
 
 6. Reboot the box for good measure: <pre>$ vagrant reload avdev01-local</pre>

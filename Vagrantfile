@@ -5,7 +5,7 @@
 # Instructions: see README.md
 
 LOCAL_BOX_PATH =
-  ENV["LOCAL_BOX_PATH"] || "/scratch/dont_backup/cwant/avalon/vagrant_boxes"
+  ENV["LOCAL_BOX_PATH"] || "/scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon-base.box"
 
 AVALON_HOSTS = {
   'avalon-base-box' => {

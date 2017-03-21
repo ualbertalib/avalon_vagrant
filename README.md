@@ -8,9 +8,9 @@ If you don't want to use Vagrant, just provision your dev machine however you li
 ### Environment
 
 1. Select a place where you would like to store a virtual base
-     box for provisioning VMs. Put the path to this directory in
+     box for provisioning VMs. Put the path to the box in
      the environment variable LOCAL_BOX_PATH. If not set, this
-      will default to "/scratch/dont_backup/cwant/avalon/vagrant_boxes".
+      will default to "/scratch/dont_backup/cwant/avalon/vagrant_boxes/avalon-base.box".
 
 ### Create the base box package
 
@@ -40,7 +40,7 @@ create all of the derivative boxes
    for now, the master branch will be updated when things are better tested),
    and set the vault password in ~/.vault (ask a staff member for the password, and
    assistance checking out the code from the UNIX team's private git repository).
-2. Set the names in the inventory-dev files all to avdev01-local,
+2. Set any reference to avdev01 in the inventory-dev files to avdev01-local,  
    and any FQDN related names to avdev01-local.library.ualberta.ca
 3. Point avdev01-local to the "private_network" address in the
    Vagrantfile in your host /etc/hosts. For the host avdev01-local, this should
@@ -59,6 +59,26 @@ roles_path=../../shared-roles
  </pre> (Wait a really long time)
 
 7. Reboot the box for good measure: <pre>$ vagrant reload avdev01-local</pre>
+
+**Notes:** 
+- If failed with the following error message:
+</pre>failed: [avdev01-local] => {"failed": true}
+msg: SELinux is disabled on this host.</pre>
+
+The vagrant box might need to be rebooted. You can check the status of SELinux in the vagrant box with:
+<pre>sestatus</pre>
+SELinux Status should be enabled. If not, run the following command to enable it and reboot the VM:
+<pre>"sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config"</pre>
+
+- If the process is stalled during Fedora installation, it is possible that Fedora has already been installed on the VM through previous unsuccessful Ansible provisions. To fix the issue:
+umount Fedora data directory and delete the director for both dev and test instaces:
+<pre>
+umount /usr/local/fedora/data
+umount /usr/local/fedora-test/data/
+rm -rf /usr/local/fedora/data
+rm -rf /usr/local/fedora-test/data
+</pre>
+
 
 ### Using your box
 
